@@ -37,4 +37,22 @@ document.addEventListener("DOMContentLoaded", async ()=>{
 
     document.querySelector("#data").appendChild(dataElement)
 
+    const map = L.map("mapDetail")
+    map.setView([firstPosition.latitude,firstPosition.longitude],15)
+    L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.{ext}', {
+	minZoom: 5,
+	maxZoom: 18,
+	attribution: '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+	ext: 'png'
+    }).addTo(map)
+
+    const positionArray = ride.data.map((position => {
+        return [position.latitude, position.longitude]
+    }))
+
+    const polyline = L.polyline(positionArray, { color: "#f00" })
+    polyline.addTo(map)
+
+    map.fitBounds(polyline.getBounds())
+
 })
