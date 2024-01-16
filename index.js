@@ -20,7 +20,9 @@ allRides.forEach(async([id, value])=>{
     const firstPosition = ride.data[0]
     const fistLocationData = await getLocationData(firstPosition.latitude,firstPosition.longitude)
 
+    const mapID = `map${ride.id}`
     const mapElement = document.createElement("div")
+    mapElement.id = mapID
     mapElement.style = "width:100px;height:100px"
     mapElement.classList.add("bg-primary")
     mapElement.classList.add("rounded-4")
@@ -55,6 +57,21 @@ allRides.forEach(async([id, value])=>{
 
     itemElement.appendChild(mapElement)
     itemElement.appendChild(dataElement)
+
+    const map = L.map(mapID, {
+        zoomControl: false,
+        attributionControl:false,
+        dragging: false,
+        scrollWheelZoom: false
+    })
+    map.setView([firstPosition.latitude,firstPosition.longitude],15)
+    L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.{ext}', {
+	minZoom: 5,
+	maxZoom: 18,
+	ext: 'png'
+    }).addTo(map);
+
+    L.marker([firstPosition.latitude,firstPosition.longitude]).addTo(map)
 
 })
 

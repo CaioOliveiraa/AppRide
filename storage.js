@@ -10,6 +10,12 @@ function createNewRide(){
     return rideID
 }
 
+function deleteRide(rideID){
+
+    localStorage.removeItem(rideID)
+
+}
+
 function getAllRides(){
     return Object.entries(localStorage)
 }
