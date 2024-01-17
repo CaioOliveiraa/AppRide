@@ -1,7 +1,5 @@
 async function getLocationData(latitude, longitude){
-
     const url = `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&=localityLanguage=en`
-
     const response = await fetch(url)
     return await response.json()
 }
@@ -9,8 +7,8 @@ async function getLocationData(latitude, longitude){
 function getMaxSpeed(positions){
 
     let maxSpeed = 0
-    positions.forEach(positions=>{
-        if(positions.speed != null && positions.speed > maxSpeed)
+    positions.forEach(position=>{
+        if(position.speed != null && position.speed > maxSpeed)
             maxSpeed = position.speed
     })
 
@@ -41,7 +39,8 @@ function getDistance(positions){
             Math.cos(toRad(p1.latitude)) *
             Math.cos(toRad(p2.latitude))
         
-        const c = 2 * Math.atan2(Math.sqrt(a),Math.sqrt(1-a))
+        const c = 2 * Math.atan2(Math.sqrt(a),
+            Math.sqrt(1 - a))
 
         const distance = earthRadius * c
 
@@ -62,7 +61,7 @@ function getDuration(ride){
         return String(number.toFixed(0)).padStart(2, "0")
     }
 
-    const interval = (ride.stopTime - ride.startTime)/1000
+    const interval = (ride.stopTime - ride.startTime) / 1000
 
     const minutes = Math.trunc(interval / 60)
     const seconds = interval % 60
